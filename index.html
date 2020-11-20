@@ -1,0 +1,150 @@
+<!-- JS Module -->
+<script src="node_modules/chart.js/dist/Chart.js" charset="utf-8"></script> 
+
+<!-- JS Internal -->
+<script src="src/Thermostat.js" charset="utf-8"></script>
+<script src="src/Linker.js" charset="utf-8"></script>
+<script src="src/Graph.js" charset="utf-8"></script>
+
+<!-- Style -->
+<style> 
+
+    /* Colours */
+    .red {
+        color:red 
+    }
+
+    .blue {
+        color:blue 
+    }
+
+    .mahogany {
+        color:rgb(122, 29, 29)
+    }
+    .electric {
+        color:#fffd0f;
+    }
+
+    body {background-color: #1b1616; color:maroon}
+
+    .left {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        width: 700px;
+        height: 700px;
+    }
+
+    .main {
+        border-right: 9px solid white;
+        height: 100%;
+    }
+
+    input[type="range"] {
+        margin: 0px 0px 0px 100px;
+    
+        width:500px;
+    }
+
+</style>
+
+<!-- HTML -->
+
+<!-- Make Graph -->
+<div style="float: left; max-width: 700px; max-height: px;">
+
+    <!-- Graph -->
+    <canvas id="myChart" width="700" height="700"></canvas> 
+
+    <br>
+
+    <!-- Slider -->
+    <input type="range" id="tempSlider" name="tempSlider"
+        min="10" max="25" value="20">
+
+    <input type="range" id="tempSliderHigh" name="tempSliderHigh"
+        min="10" max="32" value="20">
+    
+</div>
+
+
+<div id="main" class="main"> 
+
+    
+    <h1 id="title1">Thermostat</h1> 
+
+    <div id="temp-section">
+        <h1 class="electric"> Temperature (Celcius)</h1>
+        <h2 id="demo">[temp]</h2> 
+
+        <button id="up" onclick="up(stat)"> up </button>
+        <button id="down" onclick="down(stat)"> down </button>
+
+    </div>
+
+    <div id="power-saving-section">
+        <h1 id="saving-title" class="electric"> Power Saving Status</h1>
+        <h2 id="power-saving-status">[On]</h2> 
+        <button id="PowerToggle" onclick="toggle(stat)"> Power Saving Toggle </button>
+    </div>
+
+    <div id="energy-usage-section"> 
+        <h1 id="energy-title" class="electric"> Energy Usage</h1>
+        <h2 id="energy-usage">[Medium]</h2>
+        
+    </div>
+
+    <br>
+    <hr size=2>
+
+    <div id="different-places-temp">
+        <h1 id="place-title" class="electric"> Different Place Checker</h1>
+        <h2 id="place-temp">[N/A]</h2> 
+        <button id="Melbourn" onclick="weatherBalloon(2642802)"> Melbourn </button>
+        <button id="London" onclick="weatherBalloon(2643743)"> London </button>
+        <button id="Bersenbrück" onclick="weatherBalloon(2949906)"> Bersenbrück </button>
+        <button id="Paris" onclick="weatherBalloon(2988507)"> Paris </button>
+        <button id="Kyiv" onclick="weatherBalloon(703448)"> Kyiv </button>
+        <button id="Minsk" onclick="weatherBalloon(625144)"> Minsk </button>
+        <button id="Berlin" onclick="weatherBalloon(2950159)"> Berlin </button>
+        <button id="Moscow" onclick="weatherBalloon(524901)"> Moscow </button>
+    </div>
+
+    <br>
+
+    <div>
+        <iframe id="frame" src="https://www.google.com/maps/embed?pb=!4v1605806558239!6m8!1m7!1swsldjItprJ5tMGyhQFvqFQ!2m2!1d52.08519872497711!2d0.01859984414884981!3f277.8907148927977!4f-11.192688505590098!5f0.7820865974627469" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    </div>
+</div>
+
+<!-- Make thermometer and refresh all. -->
+<script>
+    var stat = new Thermostat 
+    refreshAll(stat)
+
+</script>
+
+<!-- Graph -->
+<script>
+    makeGraph()
+</script>
+
+<!-- If moving the slider -->
+<script>  
+    function slideTempSet(name) {
+
+        var slider = document.getElementById(name);
+        stat.temp = slider.value; // Display the default slider value
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider.oninput = function() {
+            stat.temp = this.value;
+            refreshAll(stat)
+        }
+    }   
+
+    slideTempSet("tempSlider")
+    slideTempSet("tempSliderHigh")
+</script>
+
+
